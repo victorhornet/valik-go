@@ -4,6 +4,10 @@ import (
 	"net/http"
 
 	"valik/cmd/web"
+	"valik/cmd/web/features/amy"
+	"valik/cmd/web/features/profile"
+	"valik/cmd/web/features/team"
+	"valik/cmd/web/pages"
 
 	"github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
@@ -17,11 +21,10 @@ func (s *Server) RegisterRoutes() http.Handler {
 	fileServer := http.FileServer(http.FS(web.Files))
 	e.GET("/assets/*", echo.WrapHandler(fileServer))
 
-	e.GET("/", echo.WrapHandler(templ.Handler(web.HelloForm())))
-	e.GET("/another", echo.WrapHandler(templ.Handler(web.Another())))
-	e.POST("/hello", echo.WrapHandler(http.HandlerFunc(web.HelloWebHandler)))
-
-	e.GET("/helloworld", s.HelloWorldHandler)
+	e.GET("/", echo.WrapHandler(templ.Handler(pages.Home())))
+	e.GET("/amy", echo.WrapHandler(templ.Handler(amy.Page())))
+	e.GET("/profile", echo.WrapHandler(templ.Handler(profile.Page())))
+	e.GET("/team", echo.WrapHandler(templ.Handler(team.Page())))
 
 	e.GET("/health", s.healthHandler)
 
