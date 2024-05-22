@@ -6,9 +6,13 @@ templ Base() {
 		<head>
 			<meta charset="utf-8"/>
 			<title>Go Blueprint Hello</title>
-			<script src="assets/js/htmx.min.js"></script>
+			<script src="/assets/js/htmx.min.js"></script>
+			<link href="/assets/css/output.css" rel="stylesheet"/>
 		</head>
 		<body>
+			<header>
+				@Nav()
+			</header>
 			<main>
 				{ children... }
 			</main>

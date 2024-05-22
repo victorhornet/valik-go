@@ -3,10 +3,11 @@ package server
 import (
 	"net/http"
 
+	"valik/cmd/web"
+
 	"github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"valik/cmd/web"
 )
 
 func (s *Server) RegisterRoutes() http.Handler {
@@ -16,10 +17,11 @@ func (s *Server) RegisterRoutes() http.Handler {
 	fileServer := http.FileServer(http.FS(web.Files))
 	e.GET("/assets/*", echo.WrapHandler(fileServer))
 
-	e.GET("/web", echo.WrapHandler(templ.Handler(web.HelloForm())))
+	e.GET("/", echo.WrapHandler(templ.Handler(web.HelloForm())))
+	e.GET("/another", echo.WrapHandler(templ.Handler(web.Another())))
 	e.POST("/hello", echo.WrapHandler(http.HandlerFunc(web.HelloWebHandler)))
 
-	e.GET("/", s.HelloWorldHandler)
+	e.GET("/helloworld", s.HelloWorldHandler)
 
 	e.GET("/health", s.healthHandler)
 
