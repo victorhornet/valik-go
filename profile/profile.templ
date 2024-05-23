@@ -1,0 +1,27 @@
+package profile
+
+import "fmt"
+import "valik/web/layout"
+
+templ Page(players []PlayerProfile) {
+	@layout.Base() {
+		<h1 class="text-xl">Profiles</h1>
+		@ProfileList(players)
+	}
+}
+
+templ ProfileList(players []PlayerProfile) {
+	<ul>
+		for _, player := range players {
+			<li>
+				<a class="btn btn-ghost" href={ templ.URL(fmt.Sprintf("/profile/%s", player.username)) }>
+					@ProfileComponent(player)
+				</a>
+			</li>
+		}
+	</ul>
+}
+
+templ ProfileComponent(player PlayerProfile) {
+	<h1>{ player.username }</h1>
+}

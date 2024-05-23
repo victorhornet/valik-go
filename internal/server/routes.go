@@ -3,11 +3,9 @@ package server
 import (
 	"net/http"
 
-	"valik/cmd/web"
-	"valik/cmd/web/features/amy"
-	"valik/cmd/web/features/profile"
-	"valik/cmd/web/features/team"
-	"valik/cmd/web/pages"
+	"valik/profile"
+	"valik/web"
+	"valik/web/pages"
 
 	"github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
@@ -22,9 +20,9 @@ func (s *Server) RegisterRoutes() http.Handler {
 	e.GET("/assets/*", echo.WrapHandler(fileServer))
 
 	e.GET("/", echo.WrapHandler(templ.Handler(pages.Home())))
-	e.GET("/amy", echo.WrapHandler(templ.Handler(amy.Page())))
-	e.GET("/profile", echo.WrapHandler(templ.Handler(profile.Page())))
-	e.GET("/team", echo.WrapHandler(templ.Handler(team.Page())))
+	e.GET("/amy", echo.WrapHandler(templ.Handler(pages.Amy())))
+	e.GET("/profile", echo.WrapHandler(http.HandlerFunc(profile.ProfilePageHandler)))
+	e.GET("/team", echo.WrapHandler(templ.Handler(pages.Team())))
 
 	e.GET("/health", s.healthHandler)
 
