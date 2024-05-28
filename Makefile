@@ -5,6 +5,8 @@ all: build
 
 build:
 	@echo "Building..."
+	@bun install
+	@bunx tailwindcss -i web/assets/css/input.css -o web/assets/css/output.css
 	@templ generate
 	@go build -o main cmd/api/main.go
 
@@ -37,7 +39,7 @@ test:
 
 # Tailwind CSS
 tailwind:
-	@bunx tailwindcss -i cmd/web/assets/css/input.css -o cmd/web/assets/css/output.css --watch
+	@bunx tailwindcss -i web/assets/css/input.css -o web/assets/css/output.css --watch
 
 # Clean the binary
 clean:
