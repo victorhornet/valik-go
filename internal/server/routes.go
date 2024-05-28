@@ -21,7 +21,10 @@ func (s *Server) RegisterRoutes() http.Handler {
 
 	e.GET("/", echo.WrapHandler(templ.Handler(pages.Home())))
 	e.GET("/amy", echo.WrapHandler(templ.Handler(pages.Amy())))
-	e.GET("/profile", echo.WrapHandler(http.HandlerFunc(profile.ProfilePageHandler)))
+
+	e.GET("/profiles", echo.WrapHandler(http.HandlerFunc(profile.ProfileListHandler)))
+	e.GET("/profile/:username", profile.ProfilePageHandler)
+
 	e.GET("/team", echo.WrapHandler(templ.Handler(pages.Team())))
 
 	e.GET("/health", s.healthHandler)

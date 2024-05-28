@@ -2,8 +2,9 @@ package profile
 
 import "fmt"
 import "valik/web/layout"
+import "net/url"
 
-templ Page(players []PlayerProfile) {
+templ ProfilesPage(players []PlayerProfile) {
 	@layout.Base() {
 		<h1 class="text-xl">Profiles</h1>
 		@ProfileList(players)
@@ -14,14 +15,30 @@ templ ProfileList(players []PlayerProfile) {
 	<ul>
 		for _, player := range players {
 			<li>
-				<a class="btn btn-ghost" href={ templ.URL(fmt.Sprintf("/profile/%s", player.username)) }>
-					@ProfileComponent(player)
+				<a class="btn btn-ghost" href={ templ.URL(fmt.Sprintf("/profile/%s", url.QueryEscape(player.username))) }>
+					@ProfileListItem(player)
 				</a>
 			</li>
 		}
 	</ul>
 }
 
-templ ProfileComponent(player PlayerProfile) {
+templ ProfileListItem(player PlayerProfile) {
 	<h1>{ player.username }</h1>
+}
+
+templ ProfileOverviewPage(player PlayerProfile) {
+	@layout.Base() {
+		<h1 class="text-xl">{ player.username } ({ player.rank })</h1>
+		<h2>Agents:</h2>
+		for _, agent := range player.agents {
+			@AgentCard(agent)
+		}
+	}
+}
+
+templ AgentCard(agent string) {
+	<div class="card">
+		<h3>{ agent }</h3>
+	</div>
 }
